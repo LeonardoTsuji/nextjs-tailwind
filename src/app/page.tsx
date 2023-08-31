@@ -1,12 +1,21 @@
-import { SessionProvider } from 'next-auth/react';
-import type { AppProps } from 'next/app';
+'use client';
 
-function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
-  return (
-    <SessionProvider session={session}>
-      <Component {...pageProps} />
-    </SessionProvider>
-  );
+import { useAuth } from '@clerk/nextjs';
+import { useEffect } from 'react';
+
+function MyApp() {
+  const { getToken } = useAuth();
+
+  const init = async () => {
+    const token = await getToken({ template: 'jwt' });
+    console.log(token);
+  };
+
+  useEffect(() => {
+    init();
+  }, []);
+
+  return <></>;
 }
 
 export default MyApp;
