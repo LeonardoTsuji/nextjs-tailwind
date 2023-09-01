@@ -1,13 +1,17 @@
+import { auth } from '@clerk/nextjs';
 import Card from '@/components/Card';
 import api from '@/utils/http';
 import { ICartao } from './models/ICartao';
 
 export default async function Cartoes() {
+  const { getToken } = auth();
+
   const buscarCartoes = async () => {
+    const token = (await getToken({ template: 'jwt' })) || '';
     try {
       const reponse = await api.get<ICartao[]>('/cartao', {
         headers: {
-          Authorization: 'valid_token',
+          Authorization: `Bearer ${token}`,
         },
       });
 

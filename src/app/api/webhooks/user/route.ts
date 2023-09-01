@@ -43,11 +43,11 @@ export async function POST(req: Request) {
   // Handle the webhook
   const eventType = evt.type;
   if (eventType === 'user.created') {
-    console.log(`User ${id} was ${eventType}`);
     await api.post('/usuario', {
       login: evt.data.email_addresses[0].email_address,
       nome: evt.data.first_name + ' ' + evt.data.last_name,
       cpf: evt.data.unsafe_metadata.cpf,
+      idExterno: evt.data.id,
     });
   }
   return new Response('', {
